@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Only For My Dearest Venu 💜 // 0817</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #080210;
+      --bg-plum: #160729;
+      --purple-primary: #9333ea;
+      --purple-bright: #a855f7;
+      --purple-glow: #c084fc;
+      --lavender: #e9d5ff;
+      --magenta-accent: #e879f9;
+      --glass-bg: rgba(24, 9, 44, 0.62);
+      --glass-bg-strong: rgba(31, 11, 56, 0.78);
+      --glass-border: rgba(192, 132, 252, 0.22);
+      --glass-border-hover: rgba(216, 180, 254, 0.55);
+      --text-main: #faf5ff;
+      --text-muted: #d8b4fe;
+      --text-dim: #a78bfa;
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom Purple Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #080210; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #7e22ce, #c084fc);
+      border-radius: 999px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-obsidian);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient Mesh Purple Background */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(147, 51, 234, 0.30) 0%, transparent 48%),
+        radial-gradient(circle at 82% 78%, rgba(126, 34, 206, 0.28) 0%, transparent 52%),
+        radial-gradient(circle at 50% 45%, rgba(192, 132, 252, 0.10) 0%, #080210 78%);
+      animation: breatheBg 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes breatheBg {
+      0% { filter: brightness(0.92) saturate(1); }
+      100% { filter: brightness(1.14) saturate(1.18); }
+    }
+
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Glass Card */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 26px;
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--glass-border-hover);
+      box-shadow: 0 26px 65px rgba(147, 51, 234, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ================= VOICE QUOTE POPUP TOAST ================= */
+    #voice-toast {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-130%);
+      z-index: 300;
+      width: min(92vw, 480px);
+      padding: 18px 22px;
+      background: rgba(29, 10, 54, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(216, 180, 254, 0.45);
+      border-radius: 22px;
+      box-shadow: 0 20px 60px rgba(88, 28, 135, 0.65);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #voice-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast-emoji {
+      font-size: 2.1rem;
+      flex-shrink: 0;
+      animation: floatSoft 2.5s ease-in-out infinite;
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--magenta-accent);
+      font-weight: 600;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast-quote {
+      font-size: 0.94rem;
+      color: #faf5ff;
+      line-height: 1.45;
+    }
+
+    .wave-bars {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      height: 12px;
+    }
+    .wave-bars span {
+      width: 2.5px;
+      height: 4px;
+      background: var(--purple-glow);
+      border-radius: 2px;
+      animation: waveAnim 0.8s ease-in-out infinite alternate;
+    }
+    .wave-bars span:nth-child(2) { animation-delay: 0.15s; height: 10px; }
+    .wave-bars span:nth-child(3) { animation-delay: 0.3s; height: 7px; }
+    .wave-bars span:nth-child(4) { animation-delay: 0.45s; height: 12px; }
+
+    @keyframes waveAnim {
+      0% { transform: scaleY(0.4); opacity: 0.6; }
+      100% { transform: scaleY(1.2); opacity: 1; }
+    }
+
+    /* ================= LOCK SCREEN (PASSCODE 0817) ================= */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(circle at center, rgba(38, 12, 68, 0.86), rgba(6, 2, 14, 0.97));
+      backdrop-filter: blur(20px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #lock-screen.unlocked {
+      opacity: 0;
+      transform: scale(1.06);
+      pointer-events: none;
+    }
+
+    .vault-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 36px 28px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vault-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 65%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--purple-glow), transparent);
+    }
+
+    .vault-emoji {
+      font-size: 2.7rem;
+      margin-bottom: 8px;
+      display: inline-block;
+      animation: floatSoft 3s ease-in-out infinite;
+    }
+
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(-3deg); }
+    }
+
+    .vault-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--lavender);
+      background: rgba(147, 51, 234, 0.22);
+      border: 1px solid rgba(192, 132, 252, 0.38);
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .vault-title {
+      font-size: 1.65rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .vault-title span {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--purple-glow);
+    }
+
+    .vault-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .pin-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(216, 180, 254, 0.35);
+      background: transparent;
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pin-dot.filled {
+      background: var(--purple-glow);
+      border-color: var(--purple-glow);
+      box-shadow: 0 0 18px rgba(192, 132, 252, 0.85);
+      transform: scale(1.2);
+    }
+
+    .pin-dot.error {
+      background: #f43f5e;
+      border-color: #f43f5e;
+      box-shadow: 0 0 18px #f43f5e;
+    }
+
+    .pin-status {
+      min-height: 24px;
+      font-size: 0.83rem;
+      color: #f9a8d4;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .shake {
+      animation: shakeAnim 0.44s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    @keyframes shakeAnim {
+      10%, 90% { transform: translateX(-4px); }
+      20%, 80% { transform: translateX(6px); }
+      30%, 50%, 70% { transform: translateX(-8px); }
+      40%, 60% { transform: translateX(8px); }
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 274px;
+      margin: 0 auto 16px;
+    }
+
+    .key-btn {
+      height: 58px;
+      border-radius: 17px;
+      border: 1px solid rgba(192, 132, 252, 0.22);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 1.32rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.16s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .key-btn:hover {
+      background: rgba(147, 51, 234, 0.24);
+      border-color: rgba(216, 180, 254, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .key-btn:active {
+      transform: scale(0.93);
+      background: rgba(168, 85, 247, 0.4);
+    }
+
+    .key-btn.action-btn {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .sound-hint {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      opacity: 0.85;
+    }
+
+    /* ================= MAIN LONG-RUN WEBSITE ================= */
+    #main-content {
+      display: none;
+      opacity: 0;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 20px 100px;
+      transition: opacity 1s ease;
+    }
+
+    #main-content.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Sticky Floating Bar */
+    .top-bar {
+      position: sticky;
+      top: 16px;
+      z-index: 90;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      margin-bottom: 44px;
+      border-radius: 999px;
+      background: rgba(20, 7, 37, 0.78);
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.84rem;
+      color: var(--lavender);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--purple-glow);
+      box-shadow: 0 0 12px var(--purple-glow);
+      animation: livePulse 1.8s infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(1.3); }
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-btn {
+      background: rgba(147, 51, 234, 0.22);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      color: var(--text-main);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 0.79rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-btn:hover {
+      background: rgba(168, 85, 247, 0.38);
+      transform: translateY(-1px);
+    }
+
+    /* Chapter Spacing */
+    .section-block {
+      margin-bottom: 64px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .section-kicker {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--purple-glow);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 3.8vw, 2.55rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      color: var(--purple-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 20px 10px 44px;
+    }
+
+    .hero-emoji-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+    }
+
+    .hero-emoji-row span {
+      display: inline-block;
+      animation: floatSoft 3s ease-in-out infinite;
+    }
+    .hero-emoji-row span:nth-child(2) { animation-delay: 0.35s; }
+    .hero-emoji-row span:nth-child(3) { animation-delay: 0.7s; }
+
+    .hero-title {
+      font-size: clamp(2.35rem, 5.6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 15%, #e9d5ff 58%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .hero-pickup-box {
+      max-width: 700px;
+      margin: 0 auto 28px;
+      padding: 24px 28px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(88, 28, 135, 0.28));
+      border: 1px solid rgba(216, 180, 254, 0.35);
+      position: relative;
+    }
+
+    .pickup-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.22rem;
+      color: #f3e8ff;
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+
+    .voice-play-btn {
+      background: linear-gradient(135deg, #9333ea, #7e22ce);
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 25px rgba(147, 51, 234, 0.45);
+      transition: all 0.22s ease;
+    }
+
+    .voice-play-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(168, 85, 247, 0.6);
+    }
+
+    /* Bento Grid */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .bento-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-12 { grid-column: span 12; }
+
+    @media (max-width: 860px) {
+      .span-7, .span-5, .span-6, .span-4 {
+        grid-column: span 12;
+      }
+    }
+
+    .card-tag {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 1.7px;
+      color: var(--purple-glow);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card-heading {
+      font-size: 1.42rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .letter-text {
+      color: #ede9fe;
+      font-size: 0.98rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .letter-text p + p {
+      margin-top: 14px;
+    }
+
+    /* Sadness & Love Meters */
+    .meter-row { margin-bottom: 18px; }
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      margin-bottom: 7px;
+      color: #f3e8ff;
+    }
+    .meter-track {
+      height: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(192, 132, 252, 0.18);
+    }
+    .meter-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #7e22ce, #e879f9);
+      box-shadow: 0 0 12px rgba(192, 132, 252, 0.55);
+      transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Interactive Flip / Accountability Cards */
+    .flip-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 820px) {
+      .flip-grid { grid-template-columns: 1fr; }
+    }
+
+    .promise-card {
+      padding: 26px;
+      cursor: pointer;
+      position: relative;
+      min-height: 205px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.35s ease;
+    }
+
+    .promise-card.revealed {
+      background: rgba(147, 51, 234, 0.24);
+      border-color: rgba(232, 121, 249, 0.55);
+    }
+
+    .promise-icon { font-size: 2rem; margin-bottom: 10px; }
+    .promise-title { font-size: 1.08rem; font-weight: 600; margin-bottom: 8px; }
+    .promise-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+    .tap-hint {
+      margin-top: 12px;
+      font-size: 0.74rem;
+      color: var(--magenta-accent);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Interactive Voice Notes Studio */
+    .voice-notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .vn-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 22px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(192, 132, 252, 0.2);
+      transition: all 0.25s ease;
+    }
+
+    .vn-item:hover, .vn-item.playing {
+      background: rgba(147, 51, 234, 0.18);
+      border-color: var(--purple-glow);
+    }
+
+    .vn-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .vn-play-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.45);
+      transition: transform 0.2s ease;
+    }
+
+    .vn-play-circle:hover { transform: scale(1.08); }
+
+    .vn-title { font-weight: 600; font-size: 0.98rem; margin-bottom: 2px; }
+    .vn-sub { font-size: 0.8rem; color: var(--text-muted); }
+
+    .vn-duration {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      background: rgba(192, 132, 252, 0.12);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    /* Interactive Envelopes ("Open When...") */
+    .envelope-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 820px) {
+      .envelope-grid { grid-template-columns: 1fr; }
+    }
+
+    .envelope-card {
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .envelope-flap {
+      font-size: 2.3rem;
+      margin-bottom: 10px;
+      transition: transform 0.35s ease;
+    }
+
+    .envelope-card:hover .envelope-flap {
+      transform: scale(1.12) translateY(-3px);
+    }
+
+    .envelope-body {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(216, 180, 254, 0.3);
+      font-size: 0.9rem;
+      color: #f3e8ff;
+      animation: fadeUp 0.4s ease;
+    }
+
+    .envelope-card.open .envelope-body {
+      display: block;
+    }
+
+    /* Things I Love About Venu Slider / Carousel */
+    .love-carousel {
+      padding: 34px 28px;
+      text-align: center;
+      position: relative;
+    }
+
+    .love-quote-display {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+      color: #faf5ff;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 14px 0 22px;
+      transition: opacity 0.3s ease;
+    }
+
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Finale Verdict */
+    .decision-card {
+      text-align: center;
+      padding: 46px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .decision-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.22), transparent 65%);
+      pointer-events: none;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+      margin-top: 24px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #9333ea, #c026d3);
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 16px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 32px rgba(147, 51, 234, 0.48);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(192, 132, 252, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--lavender);
+      border: 1px solid rgba(192, 132, 252, 0.38);
+      padding: 15px 24px;
+      border-radius: 16px;
+      font-family: var(--font-sans);
+      font-size: 0.96rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(147, 51, 234, 0.22);
+      color: #fff;
+    }
+
+    .response-panel {
+      display: none;
+      margin-top: 28px;
+      padding: 26px;
+      border-radius: 20px;
+      background: rgba(147, 51, 234, 0.18);
+      border: 1px solid rgba(216, 180, 254, 0.48);
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 0.5s ease;
+    }
+
+    .response-panel.show { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .copy-btn {
+      margin-top: 16px;
+      background: #f3e8ff;
+      color: #581c87;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .copy-btn:hover { transform: scale(1.04); }
+
+    footer {
+      text-align: center;
+      margin-top: 56px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg"></div>
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- ================= VOICE QUOTE POPUP TOAST ================= -->
+  <div id="voice-toast" role="status" aria-live="polite">
+    <div class="toast-emoji" id="toast-emoji">🥺</div>
+    <div class="toast-content">
+      <div class="toast-label">
+        <span id="toast-title">Sorry Voice Note</span>
+        <span class="wave-bars" id="toast-waves">
+          <span></span><span></span><span></span><span></span>
+        </span>
+      </div>
+      <div class="toast-quote" id="toast-quote">...</div>
+    </div>
+  </div>
+
+  <!-- ================= PASSCODE GATE (0817) ================= -->
+  <section id="lock-screen" aria-label="Venu's Private Vault">
+    <div class="glass-card vault-card" id="vault-card">
+      <div class="vault-emoji" id="vault-emoji">🥺</div>
+      <div class="vault-badge">Exclusively For Venu 💜</div>
+      <h1 class="vault-title">Unlock My Heart, <span>Venu</span></h1>
+      <p class="vault-subtitle">Enter our secret 4-digit passcode to read my apology 🥀</p>
+
+      <div class="pin-display" id="pin-display">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+      </div>
+
+      <div class="pin-status" id="pin-status"></div>
+
+      <div class="keypad">
+        <button class="key-btn" data-key="1">1</button>
+        <button class="key-btn" data-key="2">2</button>
+        <button class="key-btn" data-key="3">3</button>
+        <button class="key-btn" data-key="4">4</button>
+        <button class="key-btn" data-key="5">5</button>
+        <button class="key-btn" data-key="6">6</button>
+        <button class="key-btn" data-key="7">7</button>
+        <button class="key-btn" data-key="8">8</button>
+        <button class="key-btn" data-key="9">9</button>
+        <button class="key-btn action-btn" id="clear-btn">Clear</button>
+        <button class="key-btn" data-key="0">0</button>
+        <button class="key-btn action-btn" id="back-btn">⌫</button>
+      </div>
+
+      <p class="sound-hint">🔊 Tap any key to enable soft music & voice notes</p>
+    </div>
+  </section>
+
+  <!-- ================= MAIN EXPERIENCE FOR VENU ================= -->
+  <main id="main-content">
+    <!-- Sticky Nav & Music Bar -->
+    <nav class="glass-card top-bar">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Dedicated Only To My Dearest Wife, <strong>Venu</strong> 💜</span>
+      </div>
+      <div class="top-controls">
+        <button class="pill-btn" id="music-toggle-btn">🎵 Sad Piano: ON</button>
+        <button class="pill-btn" id="lock-again-btn">Lock 🔒</button>
+      </div>
+    </nav>
+
+    <!-- CHAPTER 1: HERO & PICK-UP LINE -->
+    <header class="hero section-block reveal">
+      <div class="hero-emoji-row">
+        <span>😔</span>
+        <span>🥀</span>
+        <span>💔</span>
+      </div>
+      <div class="section-kicker">Code 0817 Verified • Made Only For You, Venu</div>
+      <h1 class="hero-title">
+        I’m Truly Sorry, <em>My Venu</em>
+      </h1>
+
+      <div class="hero-pickup-box">
+        <p class="pickup-text" id="pickup-display">
+          “Venu, even if I had a thousand lifetimes, my eyes would still look only for you—and my heart breaks knowing I hurt the very person who makes my world whole.” 💜🥺
+        </p>
+        <button class="voice-play-btn" id="replay-pickup-btn">
+          <span>🎙️</span>
+          <span>Replay Sweet Voice Note For Venu</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- CHAPTER 2: HEARTFELT LETTER & EMOTIONAL METER -->
+    <section class="section-block reveal">
+      <div class="bento-grid">
+        <article class="glass-card bento-card span-7">
+          <div>
+            <div class="card-tag">💌 From Your Husband’s Heart</div>
+            <h2 class="card-heading">Dear Venu, Please Read This Slowly 🥺</h2>
+            <div class="letter-text">
+              <p>
+                My dearest Venu, I built this entire space just for you because a simple text message could never carry the weight of how sorry I truly am. Being your husband is the greatest blessing of my life, and lately, I haven’t been showing up for you the way a loving husband should.
+              </p>
+              <p>
+                You deserve patience, warmth, gentle words, and someone who protects your peace—never someone who makes your eyes feel heavy or your heart feel lonely. Looking at how hurt you felt breaks me inside 😢💔.
+              </p>
+              <p>
+                I don’t expect everything to feel okay instantly. I respect your feelings completely. I just want you to know that I see my mistakes clearly, I own them with full humility, and I am committed to becoming the husband you deserve—every single day.
+              </p>
+            </div>
+          </div>
+          <div style="margin-top: 20px;">
+            <button class="voice-play-btn" id="play-letter-btn">
+              <span>🔊</span>
+              <span>Listen To My Apology Letter</span>
+            </button>
+          </div>
+        </article>
+
+        <article class="glass-card bento-card span-5">
+          <div>
+            <div class="card-tag">💔 Right Now Inside Me</div>
+            <h2 class="card-heading">How Much I Miss Your Smile</h2>
+
+            <div class="meter-row">
+              <div class="meter-label">
+                <span>Regret For Hurting Venu 😢</span>
+                <span>100%</span>
+              </div>
+              <div class="meter-track">
+                <div class="meter-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-label">
+                <span>Sadness Without Your Laugh 😔</span>
+                <span id="sad-pct">98%</span>
+              </div>
+              <div class="meter-track">
+                <div class="meter-fill" id="sad-bar" style="width: 98%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-row">
+              <div class="meter-label">
+                <span>Love & Respect For You, Venu 💜</span>
+                <span>∞ %</span>
+              </div>
+              <div class="meter-track">
+                <div class="meter-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-secondary" id="hug-meter-btn" style="width: 100%; padding: 12px;">
+            Send Me A Tiny Virtual Hug, Venu 🥺🫂
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: INTERACTIVE ACCOUNTABILITY & PROMISES -->
+    <section class="section-block reveal">
+      <div class="section-header">
+        <div class="section-kicker">Chapter 02 • Honest Accountability</div>
+        <h2 class="section-title">Tap Each Card To See My <em>Promises To Venu</em></h2>
+      </div>
+
+      <div class="flip-grid">
+        <div class="glass-card promise-card" data-promise="I promise to listen to you, Venu—not just to reply, but to truly understand your heart and never dismiss your feelings.">
+          <div class="promise-icon">👂💜</div>
+          <div class="promise-title">I Will Listen Better</div>
+          <div class="promise-desc">Click to reveal my promise...</div>
+          <div class="tap-hint">Tap to open ✨</div>
+        </div>
+
+        <div class="glass-card promise-card" data-promise="I promise to speak to you gently even on stressful days. Your heart is too precious to ever receive harshness from me.">
+          <div class="promise-icon">🕊️🥀</div>
+          <div class="promise-title">Gentle Words Always</div>
+          <div class="promise-desc">Click to reveal my promise...</div>
+          <div class="tap-hint">Tap to open ✨</div>
+        </div>
+
+        <div class="glass-card promise-card" data-promise="I promise to make time for us, Venu—little dates, surprise smiles, and reminding you daily how deeply cherished you are.">
+          <div class="promise-icon">⏳🌸</div>
+          <div class="promise-title">Prioritizing Us</div>
+          <div class="promise-desc">Click to reveal my promise...</div>
+          <div class="tap-hint">Tap to open ✨</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: SOFT VOICE NOTES STUDIO -->
+    <section class="section-block reveal">
+      <div class="glass-card bento-card">
+        <div class="card-tag">🎙️ Personal Voice Notes For Venu</div>
+        <h2 class="card-heading">Recorded In My Heart Just For You 💜</h2>
+        <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 20px;">
+          Tap any voice note below whenever you want to hear how much you mean to me.
+        </p>
+
+        <div class="voice-notes-list">
+          <div class="vn-item" data-voice="Venu, I am so sorry for the moments I made you feel alone even when I was right next to you. You deserve my whole heart and presence.">
+            <div class="vn-info">
+              <button class="vn-play-circle" aria-label="Play Voice Note 1">▶</button>
+              <div>
+                <div class="vn-title">Voice Note 01 • For Making You Feel Unheard 😔</div>
+                <div class="vn-sub">Soft spoken apology from me to you</div>
+              </div>
+            </div>
+            <span class="vn-duration">Soft Voice • 0:09</span>
+          </div>
+
+          <div class="vn-item" data-voice="Hey Venu, did anyone tell you today that your smile is literally my favorite place in the entire universe? Please let me earn it back.">
+            <div class="vn-info">
+              <button class="vn-play-circle" aria-label="Play Voice Note 2">▶</button>
+              <div>
+                <div class="vn-title">Voice Note 02 • A Little Reminder About Your Smile 🥺</div>
+                <div class="vn-sub">Because you are my favorite person</div>
+              </div>
+            </div>
+            <span class="vn-duration">Soft Voice • 0:08</span>
+          </div>
+
+          <div class="vn-item" data-voice="No matter how many storms we face, Venu, I choose you today, tomorrow, and every lifetime after. I promise to be a better husband for you.">
+            <div class="vn-info">
+              <button class="vn-play-circle" aria-label="Play Voice Note 3">▶</button>
+              <div>
+                <div class="vn-title">Voice Note 03 • My Forever Vow To You, Venu 💍💜</div>
+                <div class="vn-sub">A promise I mean with all my soul</div>
+              </div>
+            </div>
+            <span class="vn-duration">Soft Voice • 0:10</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5: OPEN WHEN ENVELOPES -->
+    <section class="section-block reveal">
+      <div class="section-header">
+        <div class="section-kicker">Chapter 04 • Little Purple Envelopes</div>
+        <h2 class="section-title">Open Whenever You Need Me, <em>Venu</em></h2>
+      </div>
+
+      <div class="envelope-grid">
+        <div class="glass-card envelope-card">
+          <div class="envelope-flap">✉️💔</div>
+          <div class="promise-title">Open when you’re still angry at me</div>
+          <div class="tap-hint">Tap to unseal</div>
+          <div class="envelope-body">
+            You have every right to feel hurt, Venu. Take all the space you need—I’m not going anywhere. I’ll wait right here patiently with open arms and a humbled heart. 🥺
+          </div>
+        </div>
+
+        <div class="glass-card envelope-card">
+          <div class="envelope-flap">✉️🥀</div>
+          <div class="promise-title">Open when you doubt how much I love you</div>
+          <div class="tap-hint">Tap to unseal</div>
+          <div class="envelope-body">
+            Even on my worst, clumsiest days as a husband, my love for you has never faded for even one second, Venu. You are my home, my peace, and my proudest blessing. 💜
+          </div>
+        </div>
+
+        <div class="glass-card envelope-card">
+          <div class="envelope-flap">✉️🌸</div>
+          <div class="promise-title">Open when you want a small smile</div>
+          <div class="tap-hint">Tap to unseal</div>
+          <div class="envelope-body">
+            Warning: Your husband is currently 100% ready to bring you your favorite food, give you a 20-minute shoulder massage, and listen to you roast him lovingly. 😭💜
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 6: REASONS I ADORE VENU CAROUSEL -->
+    <section class="section-block reveal">
+      <div class="glass-card love-carousel">
+        <div class="card-tag">✨ Reason #<span id="reason-num">1</span> Why I Adore You, Venu</div>
+        <div class="love-quote-display" id="love-quote">
+          “The way your eyes light up when you talk about the little things you love.”
+        </div>
+        <div class="carousel-controls">
+          <button class="pill-btn" id="prev-reason">← Previous</button>
+          <button class="pill-btn" id="speak-reason">🎙️ Hear It</button>
+          <button class="pill-btn" id="next-reason">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 7: RESPECTFUL FINALE -->
+    <section class="section-block reveal">
+      <div class="glass-card decision-card">
+        <div class="section-kicker">The Final Page • Completely Your Choice</div>
+        <h2 class="section-title" style="margin-bottom: 10px;">
+          Will You Let Me Make It Up To You, <em>Venu?</em> 🥺💜
+        </h2>
+        <p style="color: var(--text-muted); max-width: 580px; margin: 0 auto;">
+          No rushing, no pressure—whatever you feel right now is completely valid. Choose whatever feels true to your heart:
+        </p>
+
+        <div class="cta-group">
+          <button class="btn-primary" id="forgive-btn">
+            I Forgive You, Come Hug Me 💜🫂
+          </button>
+          <button class="btn-secondary" id="time-btn">
+            I Need A Little Time Still 🥺
+          </button>
+          <button class="btn-secondary" id="treat-btn">
+            Forgiven Only After Treats & Spoiling 🍫🌹
+          </button>
+        </div>
+
+        <div class="response-panel" id="response-panel">
+          <h3 id="response-title" style="font-size: 1.4rem; margin-bottom: 8px;"></h3>
+          <p id="response-body" style="color: #f3e8ff; font-size: 0.98rem;"></p>
+          <button class="copy-btn" id="copy-reply-btn">Copy Reply To Send Me 📋</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Handcrafted With Endless Remorse & Love Only For Venu 💜 • Secret Code: 0817
+    </footer>
+  </main>
+
+  <script>
+    /* =========================================================================
+       1. WEB AUDIO ENGINE (Satisfying Clicks + Low Sad Instrumental Music)
+       ========================================================================= */
+    let audioCtx = null;
+    let musicStarted = false;
+    let musicMuted = false;
+    let masterMusicGain = null;
+    let musicInterval = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+      if (audioCtx && !musicStarted) {
+        startSadInstrumental();
+      }
+    }
+
+    // Lovely, satisfying soft crystal-marimba click
+    function playClickSound(pitchShift = 1) {
+      try {
+        initAudio();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const subOsc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(760 * pitchShift, now);
+        osc.frequency.exponentialRampToValueAtTime(340 * pitchShift, now + 0.065);
+
+        subOsc.type = "triangle";
+        subOsc.frequency.setValueAtTime(1180 * pitchShift, now);
+        subOsc.frequency.exponentialRampToValueAtTime(520 * pitchShift, now + 0.045);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.11, now + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.085);
+
+        osc.connect(gain);
+        subOsc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        subOsc.start(now);
+        osc.stop(now + 0.09);
+        subOsc.stop(now + 0.09);
+      } catch (e) {}
+    }
+
+    // Low, soft, soothing sad ambient piano & pad instrumental
+    function startSadInstrumental() {
+      if (!audioCtx || musicStarted) return;
+      musicStarted = true;
+
+      masterMusicGain = audioCtx.createGain();
+      masterMusicGain.gain.setValueAtTime(0.13, audioCtx.currentTime); // Low & gentle volume
+
+      // Warm low-pass filter so it sounds dreamy & muffled like lo-fi sad piano
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(950, audioCtx.currentTime);
+
+      masterMusicGain.connect(filter);
+      filter.connect(audioCtx.destination);
+
+      // Melancholic progression: Am9 -> Fmaj7 -> Dm9 -> Em7
+      const chords = [
+        [220.00, 261.63, 329.63, 493.88], // Am9
+        [174.61, 220.00, 261.63, 329.63], // Fmaj7
+        [146.83, 220.00, 261.63, 329.63], // Dm9
+        [164.81, 246.94, 293.66, 392.00]  // Em7
+      ];
+
+      const melodyNotes = [
+        [523.25, 493.88, 440.00], // C5, B4, A4
+        [440.00, 392.00, 329.63], // A4, G4, E4
+        [349.23, 329.63, 293.66], // F4, E4, D4
+        [329.63, 293.66, 246.94]  // E4, D4, B3
+      ];
+
+      let step = 0;
+
+      function playNote(freq, startTime, duration, volume, type = "sine") {
+        if (!audioCtx || musicMuted) return;
+        const osc = audioCtx.createOscillator();
+        const noteGain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        noteGain.gain.setValueAtTime(0.0001, startTime);
+        noteGain.gain.linearRampToValueAtTime(volume, startTime + 0.18);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+        osc.connect(noteGain);
+        noteGain.connect(masterMusicGain);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.05);
+      }
+
+      function playBar() {
+        if (!audioCtx || musicMuted) return;
+        const now = audioCtx.currentTime;
+        const idx = step % chords.length;
+        const chord = chords[idx];
+        const melody = melodyNotes[idx];
+
+        // Soft warm pad chord
+        chord.forEach((freq, i) => {
+          playNote(freq, now + i * 0.06, 4.2, 0.12, "sine");
+        });
+
+        // Delicate sad piano-like arpeggio
+        melody.forEach((freq, i) => {
+          playNote(freq, now + 0.65 + i * 1.05, 1.9, 0.16, "triangle");
+        });
+
+        step++;
+      }
+
+      playBar();
+      musicInterval = setInterval(playBar, 4000);
+    }
+
+    function duckMusic(shouldDuck) {
+      if (!audioCtx || !masterMusicGain || musicMuted) return;
+      const target = shouldDuck ? 0.05 : 0.13;
+      masterMusicGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterMusicGain.gain.linearRampToValueAtTime(target, audioCtx.currentTime + 0.35);
+    }
+
+    document.getElementById("music-toggle-btn").addEventListener("click", function () {
+      playClickSound(1.1);
+      if (!audioCtx) initAudio();
+      musicMuted = !musicMuted;
+      if (musicMuted) {
+        if (masterMusicGain) masterMusicGain.gain.setValueAtTime(0, audioCtx.currentTime);
+        this.textContent = "🔇 Sad Piano: OFF";
+      } else {
+        if (masterMusicGain) masterMusicGain.gain.setValueAtTime(0.13, audioCtx.currentTime);
+        this.textContent = "🎵 Sad Piano: ON";
+      }
+    });
+
+    /* =========================================================================
+       2. SOFT CUTE VOICE ENGINE (SpeechSynthesis + Visual Toast Popup)
+       ========================================================================= */
+    let preferredVoice = null;
+    let toastTimer = null;
+
+    function loadSoftVoice() {
+      if (!("speechSynthesis" in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      if (!voices.length) return;
+
+      // Look for the softest/sweetest female or natural voice available
+      const priorityNames = [
+        "samantha", "aria", "jenny", "zira", "susan", "karen",
+        "google uk english female", "veena", "heera", "natural", "female"
+      ];
+
+      for (const keyword of priorityNames) {
+        const found = voices.find(v => v.name.toLowerCase().includes(keyword) && v.lang.startsWith("en"));
+        if (found) {
+          preferredVoice = found;
+          return;
+        }
+      }
+      preferredVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+    }
+
+    if ("speechSynthesis" in window) {
+      loadSoftVoice();
+      window.speechSynthesis.onvoiceschanged = loadSoftVoice;
+    }
+
+    const voiceToast = document.getElementById("voice-toast");
+    const toastEmoji = document.getElementById("toast-emoji");
+    const toastTitle = document.getElementById("toast-title");
+    const toastQuote = document.getElementById("toast-quote");
+
+    function speakSoftVoice(text, title = "Voice Note", emoji = "🥺", visualText = null) {
+      // Show visual popup quote
+      toastEmoji.textContent = emoji;
+      toastTitle.textContent = title;
+      toastQuote.textContent = visualText || text;
+      voiceToast.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      if ("speechSynthesis" in window) {
+        try {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          if (preferredVoice) utter.voice = preferredVoice;
+          utter.pitch = 1.18;  // Soft, cute gentle tone
+          utter.rate = 0.89;   // Slow, tender & emotional
+          utter.volume = 0.92;
+
+          utter.onstart = () => duckMusic(true);
+          utter.onend = () => {
+            duckMusic(false);
+            toastTimer = setTimeout(() => voiceToast.classList.remove("show"), 1800);
+          };
+          utter.onerror = () => {
+            duckMusic(false);
+            toastTimer = setTimeout(() => voiceToast.classList.remove("show"), 4200);
+          };
+
+          window.speechSynthesis.speak(utter);
+        } catch (e) {
+          toastTimer = setTimeout(() => voiceToast.classList.remove("show"), 4500);
+        }
+      } else {
+        toastTimer = setTimeout(() => voiceToast.classList.remove("show"), 4500);
+      }
+    }
+
+    /* =========================================================================
+       3. PASSCODE SYSTEM ("0817") + UNIQUE WRONG SORRY QUOTES + VENU PICK-UP LINE
+       ========================================================================= */
+    const CORRECT_CODE = "0817";
+    let enteredCode = "";
+    let wrongIndex = 0;
+
+    // Different sorry voice quote with sad emojis every single wrong attempt!
+    const wrongQuotes = [
+      {
+        emoji: "🥺",
+        speak: "Oops, wrong passcode. But honestly, I'm the one who has been wrong lately. Please forgive your silly husband, Venu.",
+        display: "Oops, wrong passcode 🥺💔 But honestly, I'm the one who has been wrong lately. Please forgive me, Venu."
+      },
+      {
+        emoji: "😢",
+        speak: "Not quite that code. Just like I messed up our sweet moments, I'm really sorry for hurting your heart, Venu.",
+        display: "Not quite that code 😢🥀 Just like I messed up our sweet moments—I'm deeply sorry for hurting you."
+      },
+      {
+        emoji: "💔",
+        speak: "Wrong digits, my love. Even my keypad is crying because you are upset with me today.",
+        display: "Wrong digits, my love 💔😭 Even my keypad is crying because you're upset with me today."
+      },
+      {
+        emoji: "😔",
+        speak: "Hmm, try again please. Every wrong attempt breaks my heart almost as much as seeing you sad, Venu.",
+        display: "Try again please 😔💧 Every wrong attempt hurts almost as much as seeing you sad, Venu."
+      },
+      {
+        emoji: "🥀",
+        speak: "Still locked. I promise to be a much better husband than my memory right now. Try zero eight one seven.",
+        display: "Still locked 🥀😢 I promise to be a better husband than this guess! (Hint: 0817 🥺)"
+      },
+      {
+        emoji: "😭",
+        speak: "Aww, incorrect code. Please don't stay mad at me too long, Venu. My heart misses your smile.",
+        display: "Aww, incorrect code 😭💜 Please don't stay mad too long, Venu—my heart misses your smile."
+      }
+    ];
+
+    const pickupLineVenu = {
+      speak: "Passcode unlocked! Hey Venu, even in a sky full of a billion stars, my heart only knows how to orbit around you. I'm truly sorry for hurting my favorite universe.",
+      display: "“Venu, even in a sky full of a billion stars, my heart only knows how to orbit around you. I’m truly sorry for hurting my favorite universe.” 💜✨🥺"
+    };
+
+    const lockScreen = document.getElementById("lock-screen");
+    const mainContent = document.getElementById("main-content");
+    const vaultCard = document.getElementById("vault-card");
+    const vaultEmoji = document.getElementById("vault-emoji");
+    const pinDots = document.querySelectorAll(".pin-dot");
+    const pinStatus = document.getElementById("pin-status");
+
+    function updateDots() {
+      pinDots.forEach((dot, idx) => {
+        dot.classList.remove("error");
+        if (idx < enteredCode.length) dot.classList.add("filled");
+        else dot.classList.remove("filled");
+      });
+    }
+
+    function handleDigit(digit) {
+      playClickSound(0.95 + Number(digit) * 0.03);
+      if (enteredCode.length >= 4) return;
+      enteredCode += digit;
+      pinStatus.textContent = "";
+      updateDots();
+
+      if (enteredCode.length === 4) {
+        if (enteredCode === CORRECT_CODE) {
+          unlockForVenu();
+        } else {
+          triggerWrongPasscode();
+        }
+      }
+    }
+
+    function triggerWrongPasscode() {
+      const q = wrongQuotes[wrongIndex % wrongQuotes.length];
+      wrongIndex++;
+
+      vaultEmoji.textContent = q.emoji;
+      pinStatus.style.color = "#f9a8d4";
+      pinStatus.textContent = q.display;
+      pinDots.forEach(dot => dot.classList.add("error"));
+
+      vaultCard.classList.remove("shake");
+      void vaultCard.offsetWidth;
+      vaultCard.classList.add("shake");
+
+      speakSoftVoice(q.speak, "A Little Sorry Quote", q.emoji, q.display);
+
+      setTimeout(() => {
+        enteredCode = "";
+        updateDots();
+      }, 750);
+    }
+
+    function unlockForVenu() {
+      vaultEmoji.textContent = "🥹💜";
+      pinStatus.style.color = "#e9d5ff";
+      pinStatus.textContent = "Welcome inside, my dearest Venu 💜";
+      playClickSound(1.45);
+
+      speakSoftVoice(pickupLineVenu.speak, "For Venu Only 💜", "🥹", pickupLineVenu.display);
+
+      setTimeout(() => {
+        lockScreen.classList.add("unlocked");
+        mainContent.style.display = "block";
+        requestAnimationFrame(() => {
+          mainContent.classList.add("visible");
+          observeSections();
+        });
+      }, 650);
+    }
+
+    // Keypad event listeners
+    document.querySelectorAll(".key-btn[data-key]").forEach(btn => {
+      btn.addEventListener("click", () => handleDigit(btn.dataset.key));
+    });
+
+    document.getElementById("clear-btn").addEventListener("click", () => {
+      playClickSound(0.8);
+      enteredCode = "";
+      pinStatus.textContent = "";
+      updateDots();
+    });
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+      playClickSound(0.85);
+      enteredCode = enteredCode.slice(0, -1);
+      pinStatus.textContent = "";
+      updateDots();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (lockScreen.classList.contains("unlocked")) return;
+      if (e.key >= "0" && e.key <= "9") handleDigit(e.key);
+      else if (e.key === "Backspace") {
+        playClickSound(0.85);
+        enteredCode = enteredCode.slice(0, -1);
+        updateDots();
+      }
+    });
+
+    document.getElementById("lock-again-btn").addEventListener("click", () => {
+      playClickSound(0.9);
+      enteredCode = "";
+      pinStatus.textContent = "";
+      vaultEmoji.textContent = "🥺";
+      updateDots();
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      mainContent.classList.remove("visible");
+      setTimeout(() => {
+        mainContent.style.display = "none";
+        lockScreen.classList.remove("unlocked");
+      }, 450);
+    });
+
+    /* =========================================================================
+       4. MAIN SITE INTERACTIVITY
+       ========================================================================= */
+    // Replay pickup line
+    document.getElementById("replay-pickup-btn").addEventListener("click", () => {
+      playClickSound(1.2);
+      speakSoftVoice(pickupLineVenu.speak, "Pick-Up Line For Venu 💜", "🥹", pickupLineVenu.display);
+    });
+
+    // Listen to Apology Letter
+    document.getElementById("play-letter-btn").addEventListener("click", () => {
+      playClickSound(1.1);
+      speakSoftVoice(
+        "My dearest Venu, being your husband is the greatest blessing of my life, and I am so sorry for the times I let you down. You deserve patience, warmth, and someone who protects your peace. I own my mistakes completely and promise to do better every single day.",
+        "Apology Letter For Venu",
+        "💌",
+        "Playing your husband's heartfelt apology letter for you, Venu... 🥺💜"
+      );
+    });
+
+    // Virtual Hug Meter
+    let hugCount = 0;
+    const sadBar = document.getElementById("sad-bar");
+    const sadPct = document.getElementById("sad-pct");
+    document.getElementById("hug-meter-btn").addEventListener("click", function () {
+      playClickSound(1.25);
+      hugCount++;
+      const newVal = Math.max(15, 98 - hugCount * 22);
+      sadBar.style.width = newVal + "%";
+      sadPct.textContent = newVal + "%";
+      this.textContent = `Hug #${hugCount} Received! Feeling warmer already 🥹🫂`;
+      speakSoftVoice("Thank you for that hug, Venu. You always know how to heal my heart.", "Virtual Hug Received", "🫂", "Thank you for that hug, Venu 💜🥺");
+    });
+
+    // Accountability / Promise Cards
+    document.querySelectorAll(".promise-card").forEach(card => {
+      card.addEventListener("click", () => {
+        playClickSound(1.15);
+        const isRevealed = card.classList.toggle("revealed");
+        const desc = card.querySelector(".promise-desc");
+        const hint = card.querySelector(".tap-hint");
+        if (isRevealed) {
+          desc.textContent = card.dataset.promise;
+          hint.textContent = "Sealed in my heart 💜";
+          speakSoftVoice(card.dataset.promise, "My Promise To Venu", "💜", card.dataset.promise);
+        } else {
+          desc.textContent = "Click to reveal my promise...";
+          hint.textContent = "Tap to open ✨";
+        }
+      });
+    });
+
+    // Voice Notes Studio
+    document.querySelectorAll(".vn-item").forEach(item => {
+      item.addEventListener("click", () => {
+        playClickSound(1.18);
+        document.querySelectorAll(".vn-item").forEach(el => el.classList.remove("playing"));
+        item.classList.add("playing");
+        const title = item.querySelector(".vn-title").textContent;
+        const msg = item.dataset.voice;
+        speakSoftVoice(msg, title, "🎙️", msg);
+      });
+    });
+
+    // Open When Envelopes
+    document.querySelectorAll(".envelope-card").forEach(env => {
+      env.addEventListener("click", () => {
+        playClickSound(1.08);
+        const opened = env.classList.toggle("open");
+        env.querySelector(".tap-hint").textContent = opened ? "Tap to fold back" : "Tap to unseal";
+      });
+    });
+
+    // Reasons I Adore Venu Carousel
+    const reasons = [
+      "The way your eyes light up when you talk about the little things you love, Venu.",
+      "How strong, kind, and graceful you are even when life gets overwhelming.",
+      "Your laugh—it is genuinely the sweetest melody my ears have ever known.",
+      "The warmth you bring into our home just by being in the same room with me.",
+      "How deeply you care for the people around you, even when you're tired."
+    ];
+    let reasonIdx = 0;
+    const reasonNum = document.getElementById("reason-num");
+    const loveQuote = document.getElementById("love-quote");
+
+    function updateReason() {
+      reasonNum.textContent = reasonIdx + 1;
+      loveQuote.style.opacity = 0;
+      setTimeout(() => {
+        loveQuote.textContent = `“${reasons[reasonIdx]}”`;
+        loveQuote.style.opacity = 1;
+      }, 180);
+    }
+
+    document.getElementById("prev-reason").addEventListener("click", () => {
+      playClickSound(0.95);
+      reasonIdx = (reasonIdx - 1 + reasons.length) % reasons.length;
+      updateReason();
+    });
+
+    document.getElementById("next-reason").addEventListener("click", () => {
+      playClickSound(1.1);
+      reasonIdx = (reasonIdx + 1) % reasons.length;
+      updateReason();
+    });
+
+    document.getElementById("speak-reason").addEventListener("click", () => {
+      playClickSound(1.22);
+      speakSoftVoice(reasons[reasonIdx], `Reason #${reasonIdx + 1} For Venu`, "💜", reasons[reasonIdx]);
+    });
+
+    // Finale Verdict Buttons
+    let celebrationMode = false;
+    const responsePanel = document.getElementById("response-panel");
+    const responseTitle = document.getElementById("response-title");
+    const responseBody = document.getElementById("response-body");
+    const copyReplyBtn = document.getElementById("copy-reply-btn");
+    let chosenReplyText = "";
+
+    document.getElementById("forgive-btn").addEventListener("click", () => {
+      playClickSound(1.35);
+      celebrationMode = true;
+      sadBar.style.width = "0%";
+      sadPct.textContent = "0% (Healed by Venu 💜)";
+      responsePanel.classList.add("show");
+      responseTitle.textContent = "Thank You, My Beautiful Wife Venu 🥹💜🌹";
+      responseBody.textContent = "I promise with all my heart not to take your forgiveness lightly. Come here for the longest, warmest hug ever!";
+      chosenReplyText = "I unlocked 0817 and read everything. I forgive you, come hug me! 💜🫂";
+      speakSoftVoice("Thank you so much for forgiving me, Venu. I love you more than words can ever say.", "Forgiven By Venu 💜", "🥹", "Thank you so much, my Venu! 💜🫂");
+    });
+
+    document.getElementById("time-btn").addEventListener("click", () => {
+      playClickSound(1.0);
+      responsePanel.classList.add("show");
+      responseTitle.textContent = "I Completely Respect Your Space, Venu 🥺🥀";
+      responseBody.textContent = "Take all the time you need. I’ll be right here patiently showing you with my actions—not just words—how deeply sorry I am.";
+      chosenReplyText = "I unlocked 0817. Thank you for the effort, I just need a little time right now 🥺💜";
+      speakSoftVoice("I respect your feelings completely, Venu. Take all the time you need, my love.", "Respecting Your Space", "🥺", "Take all the time you need, Venu 💜");
+    });
+
+    document.getElementById("treat-btn").addEventListener("click", () => {
+      playClickSound(1.25);
+      celebrationMode = true;
+      responsePanel.classList.add("show");
+      responseTitle.textContent = "Challenge Happily Accepted, Queen Venu! 🍫🌹💜";
+      responseBody.textContent = "Chocolates, your favorite food, flowers, and extra pampering are officially on their way! Anything for your smile.";
+      chosenReplyText = "Code 0817 unlocked! You're forgiven ONLY after chocolates, flowers, and spoiling me 🍫🌹💜";
+      speakSoftVoice("Deal! Chocolates, flowers, and endless spoiling coming right up for you, Venu!", "Treat Accepted!", "🍫", "Anything to bring back Venu's smile! 🍫🌹");
+    });
+
+    copyReplyBtn.addEventListener("click", () => {
+      playClickSound(1.15);
+      navigator.clipboard.writeText(chosenReplyText).then(() => {
+        copyReplyBtn.textContent = "Copied! Send it to me now 💜✅";
+        setTimeout(() => {
+          copyReplyBtn.textContent = "Copy Reply To Send Me 📋";
+        }, 2500);
+      });
+    });
+
+    /* =========================================================================
+       5. SCROLL REVEAL OBSERVER
+       ========================================================================= */
+    function observeSections() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    }
+
+    /* =========================================================================
+       6. FLOATING PURPLE DUST & SAD EMOJI CANVAS
+       ========================================================================= */
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+
+    const sadEmojis = ["🥺", "🥀", "💔", "😢", "😔", "💜"];
+    const happyEmojis = ["💜", "🌸", "🥹", "✨", "🌹", "🫂"];
+    const particles = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(initial = false) {
+        this.x = Math.random() * width;
+        this.y = initial ? Math.random() * height : height + 30;
+        this.isEmoji = Math.random() < 0.34;
+        this.emojiIndex = Math.floor(Math.random() * sadEmojis.length);
+        this.size = this.isEmoji ? (14 + Math.random() * 13) : (1.6 + Math.random() * 2.8);
+        this.speedY = 0.3 + Math.random() * 0.75;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.alpha = 0.16 + Math.random() * 0.44;
+        this.sway = Math.random() * Math.PI * 2;
+      }
+      update(t) {
+        this.y -= this.speedY;
+        this.x += this.speedX + Math.sin(t * 0.001 + this.sway) * 0.28;
+        if (this.y < -40) this.reset(false);
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        if (this.isEmoji) {
+          ctx.font = `${this.size}px sans-serif`;
+          const list = celebrationMode ? happyEmojis : sadEmojis;
+          ctx.fillText(list[this.emojiIndex], this.x, this.y);
+        } else {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = celebrationMode ? "#e879f9" : "#a855f7";
+          ctx.shadowBlur = 14;
+          ctx.shadowColor = "#c084fc";
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 46; i++) particles.push(new Particle());
+
+    function animate(t) {
+      ctx.clearRect(0, 0, width, height);
+      for (const p of particles) {
+        p.update(t);
+        p.draw();
+      }
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
